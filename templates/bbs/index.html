@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>簡易掲示板</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+<style>
+.calender {
+    text-align:center;
+    font-size:1.5rem;
+    border:solid 0.2rem black;
+    /* カレンダーを中央に配置。 */
+    margin:0.5rem auto 0;
+}
+.calender td{ 
+    padding:0.5rem;
+    border:solid 0.1rem black;
+}
+.calender td:nth-child(1) {
+    color:crimson;
+}
+.calender td:nth-child(7) {
+    color:royalblue;
+}
+.calender_head {
+    font-weight:bold;
+    border-bottom:double 0.2rem black;
+}
+</style>
+
+<!--↓でカレンダーの枠を広げる。はみ出したらスクロール形式にするoverflow:auto;を使うと尚良。-->
+<!--
+<style>
+.calender {
+    width:100%;
+}
+.calender td{ 
+    width:calc(100%/7);
+}
+</style>
+-->
+
+</head>
+<body>
+
+    <main class="container">
+        <form method="POST">
+            {% csrf_token %}
+            <textarea class="form-control" name="comment"></textarea>
+            <input type="submit" value="送信">
+        </form>
+
+        <!--カレンダー-->
+        <table class="calender">
+            <thead>
+                <tr class="calender_head">
+                    <td>日</td>
+                    <td>月</td>
+                    <td>火</td>
+                    <td>水</td>
+                    <td>木</td>
+                    <td>金</td>
+                    <td>土</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for week_date in month_date %}
+                <tr>
+                    {% for day in week_date %}
+                    <td>{{ day }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+        {% for topic in topics %}
+        <div class="border">
+            {{ topic.comment }}
+        </div>
+        {% endfor %}
+
+    </main>
+</body>
+</html>
+
